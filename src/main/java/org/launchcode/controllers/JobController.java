@@ -1,7 +1,6 @@
 package org.launchcode.controllers;
 
-import org.launchcode.models.Employer;
-import org.launchcode.models.data.JobFieldData;
+
 import org.launchcode.models.Job;
 import org.launchcode.models.forms.JobForm;
 import org.launchcode.models.data.JobData;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -48,11 +46,12 @@ public class JobController {
         // redirect to the job detail view for the new Job.
 
         if (errors.hasErrors()) {
-            model.addAttribute("jobURL", "/add");
+
             return "new-job";
         }
 
-        //Construct new job instance by calling job fields by their Id
+        //Construct new job instance with parameters obtained by calling job field values by their id
+        //job field value ids are obtained from user submissions in add job JobController.add GET handler
         Job newJob = new Job(jobForm.getName(), jobData.getEmployers().findById(jobForm.getEmployerId()), jobData.getLocations().findById(jobForm.getLocationId()), jobData.getPositionTypes().findById(jobForm.getPositionTypeId()), jobData.getCoreCompetencies().findById(jobForm.getCoreCompetencyId()));
 
         jobData.add(newJob);
